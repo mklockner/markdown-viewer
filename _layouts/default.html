@@ -30,9 +30,11 @@
         box-sizing: border-box;
     }
     body {
-        display: flex;
         justify-content: center;
         background: #fff;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 800px;
     }
     @media (prefers-color-scheme: dark) {
         body {
@@ -46,18 +48,37 @@
         background: #fff;
     }
     .markdown-body {
-        max-width: 800px;
+        position: relative;
         padding: 45px;
-        margin: 40px auto;
+        margin-top: 12px;
+        margin-bottom: 36px;
         width: 100%;
         border: 1px solid var(--color-border-default);
         border-radius: 6px;
     }
+
     @media (max-width: 767px) {
         .markdown-body {
-            padding: 20px;
-            margin: 16px;
+            padding: 36px 20px 36px 20px;
+            margin-right: 2px;
         }
+    }
+
+    .theme-toggle {
+        font-size: 12px;
+        text-align: right;
+        margin: 16px 45px 0 0;
+    }
+
+    @media (max-width: 767px) {
+        .theme-toggle {
+            top: -4px;
+        }
+    }
+
+    .theme-toggle label {
+        cursor: pointer;
+        user-select: none;
     }
 
     [data-theme="dark"] .markdown-body {
@@ -166,29 +187,15 @@
         --color-done-emphasis: #8250df;
     }
 
-    .theme-toggle {
-        position: fixed;
-        top: 16px;
-        right: 16px;
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 13px;
-    }
-    .theme-toggle label {
-        cursor: pointer;
-        user-select: none;
-    }
   </style>
 </head>
 <body>
-  <div class="markdown-body">
-    {{ content }}
-  </div>
-    <div class="theme-toggle">
+  <div class="theme-toggle">
     <input type="checkbox" id="theme-switch">
     <label for="theme-switch">dark theme</label>
+  </div>
+  <div class="markdown-body">
+    {{ content }}
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
