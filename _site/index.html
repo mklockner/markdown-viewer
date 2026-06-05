@@ -4,26 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Markdown Viewer</title>
-  <!-- Begin Jekyll SEO tag v2.9.0 -->
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Markdown Viewer | A GitHub-styled markdown preview</title>
-<meta name="generator" content="Jekyll v4.4.1" />
+<meta name="generator" content="Jekyll v3.10.0" />
 <meta property="og:title" content="Markdown Viewer" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A GitHub-styled markdown preview" />
-<meta name="twitter:description" property="og:description" content="A GitHub-styled markdown preview" />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
+<meta property="og:description" content="A GitHub-styled markdown preview" />
+<link rel="canonical" href="http://0.0.0.0:4000/" />
+<meta property="og:url" content="http://0.0.0.0:4000/" />
 <meta property="og:site_name" content="Markdown Viewer" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Markdown Viewer" />
+<meta property="twitter:title" content="Markdown Viewer" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","description":"A GitHub-styled markdown preview","headline":"Markdown Viewer","name":"Markdown Viewer","url":"http://localhost:4000/"}</script>
+{"@context":"https://schema.org","@type":"WebSite","description":"A GitHub-styled markdown preview","headline":"Markdown Viewer","name":"Markdown Viewer","url":"http://0.0.0.0:4000/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" id="hljs-light">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hljs-dark">
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme');
+      if (!theme) {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      var html = document.documentElement;
+      html.setAttribute('data-color-mode', theme);
+      var isDark = theme === 'dark';
+      var el = document.getElementById('hljs-light');
+      if (el) el.media = isDark ? 'not all' : 'all';
+      el = document.getElementById('hljs-dark');
+      if (el) el.media = isDark ? 'all' : 'not all';
+    })();
+  </script>
   <style>
     * {
         margin: 0;
@@ -35,6 +50,17 @@
         justify-content: center;
         background: #fff;
     }
+    @media (prefers-color-scheme: dark) {
+        body {
+            background: #0d1117;
+        }
+    }
+    [data-color-mode="dark"] body {
+        background: #0d1117;
+    }
+    [data-color-mode="light"] body {
+        background: #fff;
+    }
     .markdown-body {
         max-width: 800px;
         padding: 45px;
@@ -43,19 +69,38 @@
         border: 1px solid var(--color-border-default);
         border-radius: 6px;
     }
-    @media (prefers-color-scheme: dark) {
-        body {
-            background: #0d1117;
-        }
-    }
-
     @media (max-width: 767px) {
         .markdown-body {
             padding: 20px;
-            margin: 16px; 
+            margin: 16px;
         }
     }
-
+    .theme-toggle {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 1000;
+    }
+    .theme-toggle input {
+        display: none;
+    }
+    .theme-toggle label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #f0f0f0;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        transition: background 0.2s;
+    }
+    [data-color-mode="dark"] .theme-toggle label {
+        background: #2d333b;
+    }
   </style>
 </head>
 <body>
@@ -374,13 +419,13 @@ Duplicated footnote reference[^second].
 [^second]: Footnote text.
 </code></pre></div></div>
 
-<p>Footnote 1 link<sup id="fnref:first"><a href="#fn:first" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>.</p>
+<p>Footnote 1 link<sup id="fnref:first" role="doc-noteref"><a href="#fn:first" class="footnote" rel="footnote">1</a></sup>.</p>
 
-<p>Footnote 2 link<sup id="fnref:second"><a href="#fn:second" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>.</p>
+<p>Footnote 2 link<sup id="fnref:second" role="doc-noteref"><a href="#fn:second" class="footnote" rel="footnote">2</a></sup>.</p>
 
 <p>Inline footnote^[Text of inline footnote] definition.</p>
 
-<p>Duplicated footnote reference<sup id="fnref:second:1"><a href="#fn:second" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>.</p>
+<p>Duplicated footnote reference<sup id="fnref:second:1" role="doc-noteref"><a href="#fn:second" class="footnote" rel="footnote">2</a></sup>.</p>
 
 <hr />
 
@@ -410,33 +455,33 @@ Duplicated footnote reference[^second].
 </code></pre></div></div>
 
 <div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@font-face</span> <span class="p">{</span>
-  <span class="nl">font-family</span><span class="p">:</span> <span class="n">Chunkfive</span><span class="p">;</span> <span class="nl">src</span><span class="p">:</span> <span class="nf">url</span><span class="p">(</span><span class="s2">'Chunkfive.otf'</span><span class="p">);</span>
+  <span class="nl">font-family</span><span class="p">:</span> <span class="n">Chunkfive</span><span class="p">;</span> <span class="nl">src</span><span class="p">:</span> <span class="sx">url('Chunkfive.otf')</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="nt">body</span><span class="o">,</span> <span class="nc">.usertext</span> <span class="p">{</span>
-  <span class="nl">color</span><span class="p">:</span> <span class="nx">#F0F0F0</span><span class="p">;</span> <span class="nl">background</span><span class="p">:</span> <span class="nx">#600</span><span class="p">;</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="m">#F0F0F0</span><span class="p">;</span> <span class="nl">background</span><span class="p">:</span> <span class="m">#600</span><span class="p">;</span>
   <span class="nl">font-family</span><span class="p">:</span> <span class="n">Chunkfive</span><span class="p">,</span> <span class="n">sans</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="k">@import</span> <span class="nf">url</span><span class="p">(</span><span class="n">print</span><span class="p">.</span><span class="n">css</span><span class="p">);</span>
+<span class="k">@import</span> <span class="sx">url(print.css)</span><span class="p">;</span>
 <span class="k">@media</span> <span class="n">print</span> <span class="p">{</span>
   <span class="nt">a</span><span class="o">[</span><span class="nt">href</span><span class="o">^=</span><span class="nt">http</span><span class="o">]</span><span class="nd">::after</span> <span class="p">{</span>
-    <span class="nl">content</span><span class="p">:</span> <span class="nf">attr</span><span class="p">(</span><span class="n">href</span><span class="p">)</span>
+    <span class="nl">content</span><span class="p">:</span> <span class="n">attr</span><span class="p">(</span><span class="n">href</span><span class="p">)</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nf">$initHighlight</span><span class="p">(</span><span class="nx">block</span><span class="p">,</span> <span class="nx">cls</span><span class="p">)</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">$initHighlight</span><span class="p">(</span><span class="nx">block</span><span class="p">,</span> <span class="nx">cls</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">try</span> <span class="p">{</span>
-    <span class="k">if </span><span class="p">(</span><span class="nx">cls</span><span class="p">.</span><span class="nf">search</span><span class="p">(</span><span class="sr">/</span><span class="se">\b</span><span class="sr">no</span><span class="se">\-</span><span class="sr">highlight</span><span class="se">\b</span><span class="sr">/</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-      <span class="k">return</span> <span class="nf">process</span><span class="p">(</span><span class="nx">block</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">)</span> <span class="o">+</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">cls</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="sr">/</span><span class="se">\b</span><span class="sr">no</span><span class="se">\-</span><span class="sr">highlight</span><span class="se">\b</span><span class="sr">/</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">return</span> <span class="nx">process</span><span class="p">(</span><span class="nx">block</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">)</span> <span class="o">+</span>
              <span class="s2">` class="</span><span class="p">${</span><span class="nx">cls</span><span class="p">}</span><span class="s2">"`</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">catch </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
     <span class="cm">/* handle exception */</span>
   <span class="p">}</span>
-  <span class="k">for </span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">classes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if </span><span class="p">(</span><span class="nf">checkCondition</span><span class="p">(</span><span class="nx">classes</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">undefined</span><span class="dl">'</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">classes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">checkCondition</span><span class="p">(</span><span class="nx">classes</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">undefined</span><span class="dl">'</span><span class="p">);</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
@@ -480,7 +525,7 @@ line description'</span><span class="p">;</span>
         <span class="p">}</span>
 
         <span class="nv">$this</span><span class="o">-&gt;</span><span class="k">var</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="k">self</span><span class="o">::</span><span class="nv">$st</span><span class="p">;</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="k">list</span> <span class="o">=</span> <span class="k">list</span><span class="p">(</span><span class="k">Array</span><span class="p">(</span><span class="s2">"1"</span><span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">=&gt;</span><span class="k">self</span><span class="o">::</span><span class="no">ME</span><span class="p">,</span> <span class="mi">3</span> <span class="o">=&gt;</span> <span class="no">\Location\Web\URI</span><span class="o">::</span><span class="n">class</span><span class="p">));</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="k">list</span> <span class="o">=</span> <span class="k">list</span><span class="p">(</span><span class="k">Array</span><span class="p">(</span><span class="s2">"1"</span><span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">=&gt;</span><span class="k">self</span><span class="o">::</span><span class="no">ME</span><span class="p">,</span> <span class="mi">3</span> <span class="o">=&gt;</span> <span class="err">\</span><span class="no">Location\Web\URI</span><span class="o">::</span><span class="n">class</span><span class="p">));</span>
 
         <span class="k">return</span> <span class="p">[</span>
             <span class="s1">'uri'</span>   <span class="o">=&gt;</span> <span class="nv">$uri</span><span class="p">,</span>
@@ -807,19 +852,61 @@ Underscores
 <p><a href="https://www.youtube.com/watch?v=ciawICBvQoE"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/YouTube_logo_2015.svg/1200px-YouTube_logo_2015.svg.png" alt="IMAGE ALT TEXT HERE" /></a></p>
 <div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:first">
+    <li id="fn:first" role="doc-endnote">
       <p>Footnote <strong>can have markup</strong></p>
 
       <p>and multiple paragraphs. <a href="#fnref:first" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:second">
+    <li id="fn:second" role="doc-endnote">
       <p>Footnote text. <a href="#fnref:second" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:second:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
     </li>
   </ol>
 </div>
 
   </div>
+  <div class="theme-toggle">
+    <input type="checkbox" id="theme-switch">
+    <label for="theme-switch" id="theme-label">&#x263E;</label>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
+  <script>
+    (function() {
+      var checkbox = document.getElementById('theme-switch');
+      var label = document.getElementById('theme-label');
+      var html = document.documentElement;
+      var hljsLight = document.getElementById('hljs-light');
+      var hljsDark = document.getElementById('hljs-dark');
+
+      function getSystemTheme() {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      function applyTheme(theme) {
+        var isDark = theme === 'dark';
+        html.setAttribute('data-color-mode', theme);
+        if (hljsLight && hljsDark) {
+          hljsLight.media = isDark ? 'not all' : 'all';
+          hljsDark.media = isDark ? 'all' : 'not all';
+        }
+        label.textContent = isDark ? '\u2600' : '\u263E';
+        checkbox.checked = isDark;
+        localStorage.setItem('theme', theme);
+      }
+
+      var saved = localStorage.getItem('theme');
+      applyTheme(saved === 'dark' || saved === 'light' ? saved : getSystemTheme());
+
+      checkbox.addEventListener('change', function() {
+        applyTheme(this.checked ? 'dark' : 'light');
+      });
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        if (!localStorage.getItem('theme')) {
+          applyTheme(e.matches ? 'dark' : 'light');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

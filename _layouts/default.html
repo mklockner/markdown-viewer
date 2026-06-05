@@ -6,8 +6,23 @@
   <title>{{ page.title | default: site.title }}</title>
   {% seo %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)" id="hljs-light">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)" id="hljs-dark">
+  <script>
+    (function() {
+      var theme = localStorage.getItem('theme');
+      if (!theme) {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      var html = document.documentElement;
+      html.setAttribute('data-color-mode', theme);
+      var isDark = theme === 'dark';
+      var el = document.getElementById('hljs-light');
+      if (el) el.media = isDark ? 'not all' : 'all';
+      el = document.getElementById('hljs-dark');
+      if (el) el.media = isDark ? 'all' : 'not all';
+    })();
+  </script>
   <style>
     * {
         margin: 0;
@@ -19,6 +34,17 @@
         justify-content: center;
         background: #fff;
     }
+    @media (prefers-color-scheme: dark) {
+        body {
+            background: #0d1117;
+        }
+    }
+    [data-color-mode="dark"] body {
+        background: #0d1117;
+    }
+    [data-color-mode="light"] body {
+        background: #fff;
+    }
     .markdown-body {
         max-width: 800px;
         padding: 45px;
@@ -27,26 +53,87 @@
         border: 1px solid var(--color-border-default);
         border-radius: 6px;
     }
-    @media (prefers-color-scheme: dark) {
-        body {
-            background: #0d1117;
-        }
-    }
-
     @media (max-width: 767px) {
         .markdown-body {
             padding: 20px;
-            margin: 16px; 
+            margin: 16px;
         }
     }
-
+    .theme-toggle {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 1000;
+    }
+    .theme-toggle input {
+        display: none;
+    }
+    .theme-toggle label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #f0f0f0;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        transition: background 0.2s;
+    }
+    [data-color-mode="dark"] .theme-toggle label {
+        background: #2d333b;
+    }
   </style>
 </head>
 <body>
   <div class="markdown-body">
     {{ content }}
   </div>
+  <div class="theme-toggle">
+    <input type="checkbox" id="theme-switch">
+    <label for="theme-switch" id="theme-label">&#x263E;</label>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
+  <script>
+    (function() {
+      var checkbox = document.getElementById('theme-switch');
+      var label = document.getElementById('theme-label');
+      var html = document.documentElement;
+      var hljsLight = document.getElementById('hljs-light');
+      var hljsDark = document.getElementById('hljs-dark');
+
+      function getSystemTheme() {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+
+      function applyTheme(theme) {
+        var isDark = theme === 'dark';
+        html.setAttribute('data-color-mode', theme);
+        if (hljsLight && hljsDark) {
+          hljsLight.media = isDark ? 'not all' : 'all';
+          hljsDark.media = isDark ? 'all' : 'not all';
+        }
+        label.textContent = isDark ? '\u2600' : '\u263E';
+        checkbox.checked = isDark;
+        localStorage.setItem('theme', theme);
+      }
+
+      var saved = localStorage.getItem('theme');
+      applyTheme(saved === 'dark' || saved === 'light' ? saved : getSystemTheme());
+
+      checkbox.addEventListener('change', function() {
+        applyTheme(this.checked ? 'dark' : 'light');
+      });
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        if (!localStorage.getItem('theme')) {
+          applyTheme(e.matches ? 'dark' : 'light');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
