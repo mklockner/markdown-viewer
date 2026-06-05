@@ -15,7 +15,7 @@
         theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
       var html = document.documentElement;
-      html.setAttribute('data-color-mode', theme);
+      html.setAttribute('data-theme', theme);
       var isDark = theme === 'dark';
       var el = document.getElementById('hljs-light');
       if (el) el.media = isDark ? 'not all' : 'all';
@@ -39,10 +39,10 @@
             background: #0d1117;
         }
     }
-    [data-color-mode="dark"] body {
+    [data-theme="dark"] body {
         background: #0d1117;
     }
-    [data-color-mode="light"] body {
+    [data-theme="light"] body {
         background: #fff;
     }
     .markdown-body {
@@ -59,31 +59,126 @@
             margin: 16px;
         }
     }
+
+    [data-theme="dark"] .markdown-body {
+        color-scheme: dark;
+        --color-prettylights-syntax-comment: #8b949e;
+        --color-prettylights-syntax-constant: #79c0ff;
+        --color-prettylights-syntax-entity: #d2a8ff;
+        --color-prettylights-syntax-storage-modifier-import: #c9d1d9;
+        --color-prettylights-syntax-entity-tag: #7ee787;
+        --color-prettylights-syntax-keyword: #ff7b72;
+        --color-prettylights-syntax-string: #a5d6ff;
+        --color-prettylights-syntax-variable: #ffa657;
+        --color-prettylights-syntax-brackethighlighter-unmatched: #f85149;
+        --color-prettylights-syntax-invalid-illegal-text: #f0f6fc;
+        --color-prettylights-syntax-invalid-illegal-bg: #8e1519;
+        --color-prettylights-syntax-carriage-return-text: #f0f6fc;
+        --color-prettylights-syntax-carriage-return-bg: #b62324;
+        --color-prettylights-syntax-string-regexp: #7ee787;
+        --color-prettylights-syntax-markup-list: #f2cc60;
+        --color-prettylights-syntax-markup-heading: #1f6feb;
+        --color-prettylights-syntax-markup-italic: #c9d1d9;
+        --color-prettylights-syntax-markup-bold: #c9d1d9;
+        --color-prettylights-syntax-markup-deleted-text: #ffdcd7;
+        --color-prettylights-syntax-markup-deleted-bg: #67060c;
+        --color-prettylights-syntax-markup-inserted-text: #aff5b4;
+        --color-prettylights-syntax-markup-inserted-bg: #033a16;
+        --color-prettylights-syntax-markup-changed-text: #ffdfb6;
+        --color-prettylights-syntax-markup-changed-bg: #5a1e02;
+        --color-prettylights-syntax-markup-ignored-text: #c9d1d9;
+        --color-prettylights-syntax-markup-ignored-bg: #1158c7;
+        --color-prettylights-syntax-meta-diff-range: #d2a8ff;
+        --color-prettylights-syntax-brackethighlighter-angle: #8b949e;
+        --color-prettylights-syntax-sublimelinter-gutter-mark: #484f58;
+        --color-prettylights-syntax-constant-other-reference-link: #a5d6ff;
+        --color-fg-default: #e6edf3;
+        --color-fg-muted: #848d97;
+        --color-fg-subtle: #6e7681;
+        --color-canvas-default: #0d1117;
+        --color-canvas-subtle: #161b22;
+        --color-border-default: #30363d;
+        --color-border-muted: #21262d;
+        --color-neutral-muted: rgba(110,118,129,0.4);
+        --color-accent-fg: #2f81f7;
+        --color-accent-emphasis: #1f6feb;
+        --color-success-fg: #3fb950;
+        --color-success-emphasis: #238636;
+        --color-attention-fg: #d29922;
+        --color-attention-emphasis: #9e6a03;
+        --color-attention-subtle: rgba(187,128,9,0.15);
+        --color-danger-fg: #f85149;
+        --color-danger-emphasis: #da3633;
+        --color-done-fg: #a371f7;
+        --color-done-emphasis: #8957e5;
+    }
+
+    [data-theme="light"] .markdown-body {
+        color-scheme: light;
+        --color-prettylights-syntax-comment: #57606a;
+        --color-prettylights-syntax-constant: #0550ae;
+        --color-prettylights-syntax-entity: #6639ba;
+        --color-prettylights-syntax-storage-modifier-import: #24292f;
+        --color-prettylights-syntax-entity-tag: #116329;
+        --color-prettylights-syntax-keyword: #cf222e;
+        --color-prettylights-syntax-string: #0a3069;
+        --color-prettylights-syntax-variable: #953800;
+        --color-prettylights-syntax-brackethighlighter-unmatched: #82071e;
+        --color-prettylights-syntax-invalid-illegal-text: #f6f8fa;
+        --color-prettylights-syntax-invalid-illegal-bg: #82071e;
+        --color-prettylights-syntax-carriage-return-text: #f6f8fa;
+        --color-prettylights-syntax-carriage-return-bg: #cf222e;
+        --color-prettylights-syntax-string-regexp: #116329;
+        --color-prettylights-syntax-markup-list: #3b2300;
+        --color-prettylights-syntax-markup-heading: #0550ae;
+        --color-prettylights-syntax-markup-italic: #24292f;
+        --color-prettylights-syntax-markup-bold: #24292f;
+        --color-prettylights-syntax-markup-deleted-text: #82071e;
+        --color-prettylights-syntax-markup-deleted-bg: #ffebe9;
+        --color-prettylights-syntax-markup-inserted-text: #116329;
+        --color-prettylights-syntax-markup-inserted-bg: #dafbe1;
+        --color-prettylights-syntax-markup-changed-text: #953800;
+        --color-prettylights-syntax-markup-changed-bg: #ffd8b5;
+        --color-prettylights-syntax-markup-ignored-text: #eaeef2;
+        --color-prettylights-syntax-markup-ignored-bg: #0550ae;
+        --color-prettylights-syntax-meta-diff-range: #8250df;
+        --color-prettylights-syntax-brackethighlighter-angle: #57606a;
+        --color-prettylights-syntax-sublimelinter-gutter-mark: #8c959f;
+        --color-prettylights-syntax-constant-other-reference-link: #0a3069;
+        --color-fg-default: #1F2328;
+        --color-fg-muted: #656d76;
+        --color-fg-subtle: #6e7781;
+        --color-canvas-default: #ffffff;
+        --color-canvas-subtle: #f6f8fa;
+        --color-border-default: #d0d7de;
+        --color-border-muted: hsla(210,18%,87%,1);
+        --color-neutral-muted: rgba(175,184,193,0.2);
+        --color-accent-fg: #0969da;
+        --color-accent-emphasis: #0969da;
+        --color-success-fg: #1a7f37;
+        --color-success-emphasis: #1f883d;
+        --color-attention-fg: #9a6700;
+        --color-attention-emphasis: #9a6700;
+        --color-attention-subtle: #fff8c5;
+        --color-danger-fg: #d1242f;
+        --color-danger-emphasis: #cf222e;
+        --color-done-fg: #8250df;
+        --color-done-emphasis: #8250df;
+    }
+
     .theme-toggle {
         position: fixed;
         top: 16px;
         right: 16px;
         z-index: 1000;
-    }
-    .theme-toggle input {
-        display: none;
-    }
-    .theme-toggle label {
         display: flex;
         align-items: center;
-        justify-content: center;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: #f0f0f0;
-        cursor: pointer;
-        font-size: 18px;
-        line-height: 1;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-        transition: background 0.2s;
+        gap: 6px;
+        font-size: 13px;
     }
-    [data-color-mode="dark"] .theme-toggle label {
-        background: #2d333b;
+    .theme-toggle label {
+        cursor: pointer;
+        user-select: none;
     }
   </style>
 </head>
@@ -91,16 +186,15 @@
   <div class="markdown-body">
     {{ content }}
   </div>
-  <div class="theme-toggle">
+    <div class="theme-toggle">
     <input type="checkbox" id="theme-switch">
-    <label for="theme-switch" id="theme-label">&#x263E;</label>
+    <label for="theme-switch">dark theme</label>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
   <script>
     (function() {
       var checkbox = document.getElementById('theme-switch');
-      var label = document.getElementById('theme-label');
       var html = document.documentElement;
       var hljsLight = document.getElementById('hljs-light');
       var hljsDark = document.getElementById('hljs-dark');
@@ -111,12 +205,11 @@
 
       function applyTheme(theme) {
         var isDark = theme === 'dark';
-        html.setAttribute('data-color-mode', theme);
+        html.setAttribute('data-theme', theme);
         if (hljsLight && hljsDark) {
           hljsLight.media = isDark ? 'not all' : 'all';
           hljsDark.media = isDark ? 'all' : 'not all';
         }
-        label.textContent = isDark ? '\u2600' : '\u263E';
         checkbox.checked = isDark;
         localStorage.setItem('theme', theme);
       }
